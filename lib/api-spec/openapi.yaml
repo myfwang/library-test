@@ -11,6 +11,56 @@ tags:
   - name: health
     description: Health operations
 paths:
+  /library/status:
+    get:
+      operationId: getLibraryStatus
+      responses:
+        "200":
+          description: Supabase connection and setup instructions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LibraryStatus"
+  /books:
+    get:
+      operationId: listBooks
+      responses:
+        "200":
+          description: Books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+    post:
+      operationId: createBook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookInput"
+      responses:
+        "201":
+          description: Saved book
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+  /books/{id}:
+    delete:
+      operationId: deleteBook
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Book not found
   /healthz:
     get:
       operationId: healthCheck
@@ -26,6 +76,31 @@ paths:
                 $ref: "#/components/schemas/HealthStatus"
 components:
   schemas:
+    LibraryStatus:
+      type: object
+      required: [connected, message, setupSql]
+      properties:
+        connected: { type: boolean }
+        message: { type: string }
+        setupSql: { type: string }
+    BookInput:
+      type: object
+      required: [title, author, genre, notes]
+      properties:
+        title: { type: string, minLength: 1, maxLength: 200 }
+        author: { type: string, minLength: 1, maxLength: 200 }
+        genre: { type: string, minLength: 1, maxLength: 80 }
+        notes: { type: string, maxLength: 2000 }
+    Book:
+      type: object
+      required: [id, title, author, genre, notes, created_at]
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string }
+        author: { type: string }
+        genre: { type: string }
+        notes: { type: string }
+        created_at: { type: string }
     HealthStatus:
       type: object
       properties:

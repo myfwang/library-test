@@ -1,6 +1,6 @@
-# [Project name]
+# Little Library
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A basic shared library demonstration using Supabase to store and retrieve books.
 
 ## Run & Operate
 
@@ -9,32 +9,39 @@ _Replace the heading above with the project's name, and this line with one sente
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- Required secrets: `SUPABASE_URL`, `SUPABASE_ANON_KEY` (anon/public key, never service-role).
+- Run the SQL displayed in the app's setup view in the target Supabase SQL Editor once, then retry connection.
+- `pnpm --filter @workspace/library run dev` — frontend (use the managed workflow).
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
 - API: Express 5
-- DB: PostgreSQL + Drizzle ORM
+- App data: external Supabase REST API; the preconfigured Replit database is not used.
 - Validation: Zod (`zod/v4`), `drizzle-zod`
 - API codegen: Orval (from OpenAPI spec)
 - Build: esbuild (CJS bundle)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- Frontend: `artifacts/library`
+- API contract: `lib/api-spec/openapi.yaml`
+- Library routes: `artifacts/api-server/src/routes/books.ts`
+- Supabase setup SQL: `artifacts/api-server/src/lib/library-setup.ts`
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Supabase is explicitly requested; do not substitute the managed database or local browser storage.
+- No authentication for this demonstration. Shared public access is intentional; do not use private or sensitive data. Add authentication and per-user policies before private use.
+- The anon key cannot create tables; schema setup is run by the user in Supabase, not during app startup or publishing.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Add, browse, search, and delete books, with live connection status and setup instructions.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+Keep this a basic demonstration site.
 
 ## Gotchas
 

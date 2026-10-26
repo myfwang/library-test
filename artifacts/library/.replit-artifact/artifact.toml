@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Little Library"
+description = "A simple demonstration library that stores and retrieves books using Supabase."
+version = "1.0.0"
+id = "artifacts/library"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20252
+
+[services.development]
+run = "pnpm --filter @workspace/library run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/library", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/library/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20252"
+BASE_PATH = "/"
