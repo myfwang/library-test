@@ -116,7 +116,7 @@ export default function Library() {
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-accent">Est. on Supabase</p>
             <h1 className="font-serif text-5xl md:text-7xl font-extrabold tracking-tight leading-[0.95] mt-2">
-              Little <span className="italic font-normal">Library</span>
+              BIG <span className="italic font-normal">Library</span>
             </h1>
             <p className="mt-3 text-muted-foreground max-w-md">Take a book, leave a book. A small shared shelf, stored for real in a Postgres table.</p>
           </div>
